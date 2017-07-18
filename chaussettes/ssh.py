@@ -1,10 +1,11 @@
 import re
 import collections
 import logging
+import subprocess
 
 module_logger = logging.getLogger('chaussettes.ssh')
 
-class SshConfig:
+class Config:
 
    _rx = re.compile(r'^ \s* (\w+) (?: \s*=\s* | \s+) (.*) $', re.X)
 

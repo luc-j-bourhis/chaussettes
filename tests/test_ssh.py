@@ -3,7 +3,7 @@ from chaussettes import ssh
 from io import StringIO
 
 def test_single_simple():
-  config = ssh.SshConfig(fileobj=StringIO("""\
+  config = ssh.Config(fileobj=StringIO("""\
   Host somewhere
   Hostname a.b.c.d
   User paul
@@ -15,7 +15,7 @@ def test_single_simple():
   ]
 
 def test_multiple_simple():
-  config = ssh.SshConfig(fileobj=StringIO("""\
+  config = ssh.Config(fileobj=StringIO("""\
 
   Host somewhere
   Hostname a.b.c.d
@@ -31,17 +31,17 @@ def test_multiple_simple():
   """))
   assert config.hosts == [
     ssh.Host('somewhere',
-         Hostname='a.b.c.d',
-         User='paul'),
+         hostname='a.b.c.d',
+         user='paul'),
     ssh.Host('somewhere.else',
-         Hostname='e.f'),
+         hostname='e.f'),
     ssh.Host('somewhere.else.altogether',
-         Hostname='g.h.i',
-         User='peter')
+         hostname='g.h.i',
+         user='peter')
   ]
 
 def test_single_more_complex():
-  config = ssh.SshConfig(fileobj=StringIO("""\
+  config = ssh.Config(fileobj=StringIO("""\
   Host=somewhere
     Hostname = my.address.com
       Compression= no

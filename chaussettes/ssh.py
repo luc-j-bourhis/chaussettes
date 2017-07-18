@@ -40,6 +40,7 @@ class Host:
    def __init__(self, host, **kwds):
       self.host = host
       self.__dict__.update(kwds)
+      self.ssh = None
 
    def __getattr__(self):
       return None
@@ -49,3 +50,14 @@ class Host:
 
    def __str__(self):
       return self.host
+
+   def connect(self):
+      module_logger.info("Connect {}".format(self.host))
+      self.ssh = subprocess.Popen(
+         ('ssh', '-N', '-D', '1080', self.hostname or self.host))
+
+   def disconnect(self):
+      if self.ssh is not None:
+         module_logger.info("Disconnect {}".format(self.hostname or self.host))
+         self.ssh.terminate()
+         self.ssh.wait()

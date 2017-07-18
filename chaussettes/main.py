@@ -2,7 +2,7 @@ from os import path
 
 import gi
 gi.require_version('Gtk', '3.0')
-from gi.repository import Gtk as gtk
+from gi.repository import Gtk as gtk, Gio as gio
 gi.require_version('AppIndicator3', '0.1')
 from gi.repository import AppIndicator3 as appindicator
 
@@ -22,6 +22,9 @@ class Chaussettes:
 
     # Build menu
     self.menu = gtk.Menu()
+
+    # State of the connections: either 1 or 0
+    self.connections = 0
 
     # Populate menu with ssh hosts
     config = ssh.Config(path.expanduser('~/.ssh/config'))
@@ -48,20 +51,35 @@ class Chaussettes:
   def main(self):
     gtk.main()
 
+  def setup_gnome(self, proxy):
+    s1 = gio.Settings('org.gnome.system.proxy')
+    s2 = gio.Settings('org.gnome.system.proxy.socks')
+    if proxy:
+      s1.set_string('mode', 'manual')
+      s2.set_int('port', ssh.Host.PORT)
+    else:
+      s1.set_string('mode', 'none')
+
   def select(self, item, host):
     if not item.get_active():
       # item has been disabled
+      self.connections -= 1
       host.disconnect()
+      if not self.connections:
+        self.setup_gnome(proxy=False)
     else:
       # item has been enabled
-      host.connect()
+      self.connections += 1
       for item1 in self.selectable:
         if item1 is not item:
           item1.set_active(False)
+      host.connect()
+      self.setup_gnome(proxy=True)
 
   def quit(self, source):
     for h in self.hosts:
       h.disconnect()
+    self.setup_gnome(proxy=False)
     gtk.main_quit()
 
 if __name__ == "__main__":

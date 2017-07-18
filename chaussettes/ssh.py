@@ -1,6 +1,8 @@
 import re
 import collections
+import logging
 
+module_logger = logging.getLogger('chaussettes.ssh')
 
 class SshConfig:
 

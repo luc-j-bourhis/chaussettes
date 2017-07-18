@@ -37,6 +37,8 @@ class Config:
 
 class Host:
 
+   PORT = 1080
+
    def __init__(self, host, **kwds):
       self.host = host
       self.__dict__.update(kwds)
@@ -54,7 +56,7 @@ class Host:
    def connect(self):
       module_logger.info("Connect {}".format(self.host))
       self.ssh = subprocess.Popen(
-         ('ssh', '-N', '-D', '1080', self.hostname or self.host))
+         ('ssh', '-N', '-D', str(self.PORT), self.hostname or self.host))
 
    def disconnect(self):
       if self.ssh is not None:

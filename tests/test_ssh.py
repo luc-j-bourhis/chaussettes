@@ -9,9 +9,9 @@ def test_single_simple():
   User paul
   """))
   assert config.hosts == [
-    ssh.Host(Host='somewhere',
-             Hostname='a.b.c.d',
-             User='paul')
+    ssh.Host(host='somewhere',
+             hostname='a.b.c.d',
+             user='paul')
   ]
 
 def test_multiple_simple():
@@ -51,10 +51,10 @@ def test_single_more_complex():
   """))
   assert config.hosts == [
     ssh.Host('somewhere',
-         Hostname='my.address.com',
-         Compression='no',
-         RequestTTY='auto',
-         ForwardX11='no',
-         Ciphers='chacha20-poly1305@openssh.com')
+         hostname='my.address.com',
+         compression='no',
+         requesttty='auto',
+         forwardx11='no',
+         ciphers='chacha20-poly1305@openssh.com')
     ]
 

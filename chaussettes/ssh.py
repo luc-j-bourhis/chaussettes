@@ -28,17 +28,17 @@ class Config:
          host = options[i][1]
          if host in seen_hosts:
             continue
-         h = {'Host':host}
+         h = {'host':host}
          for l in range(i+1, j):
             keyword, arguments = options[l]
-            h[keyword] = arguments
+            h[keyword.lower()] = arguments
          self.hosts.append(Host(**h))
          seen_hosts.add(host)
 
 class Host:
 
-   def __init__(self, Host, **kwds):
-      self.Host = Host
+   def __init__(self, host, **kwds):
+      self.host = host
       self.__dict__.update(kwds)
 
    def __getattr__(self):

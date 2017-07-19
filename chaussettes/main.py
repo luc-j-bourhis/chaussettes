@@ -1,3 +1,5 @@
+""" Main application """
+
 from os import path
 
 import gi
@@ -9,10 +11,16 @@ from gi.repository import AppIndicator3 as appindicator
 from chaussettes import ssh
 
 class Chaussettes:
+  """ The application
+
+  It features a menu listing all the Host in the current user's ssh config
+  file.
+  """
 
   APPINDICATOR_ID = 'fr.ljbo.chaussette'
 
   def __init__(self):
+    """ Setup the GUI and the business logic """
     # Basic setup
     self.indicator = appindicator.Indicator.new(
       self.APPINDICATOR_ID,
@@ -49,9 +57,13 @@ class Chaussettes:
     self.indicator.set_menu(self.menu)
 
   def main(self):
+    """ Run the application """
     gtk.main()
 
   def setup_gnome(self, proxy):
+    """ Setup or disable a SOCKS proxy in the system preferences,
+    depending on the value of the flag `proxy`
+    """
     s1 = gio.Settings('org.gnome.system.proxy')
     s2 = gio.Settings('org.gnome.system.proxy.socks')
     if proxy:
@@ -61,6 +73,10 @@ class Chaussettes:
       s1.set_string('mode', 'none')
 
   def select(self, item, host):
+    """ Called when the toggled event is triggered for one of the menu item:
+    - `item` is the instance of CheckMenuItem which triggered the event
+    - `host` is the corresponding instance of ssh.Host
+    """
     if not item.get_active():
       # item has been disabled
       self.connections -= 1
@@ -77,6 +93,7 @@ class Chaussettes:
       self.setup_gnome(proxy=True)
 
   def quit(self, source):
+    """ Quit the application """
     for h in self.hosts:
       h.disconnect()
     self.setup_gnome(proxy=False)

@@ -55,7 +55,7 @@ class Chaussettes:
     # Populate menu with ssh hosts
     config = ssh.Config(path.expanduser('~/.ssh/config'))
     self.selectable = []
-    self.hosts = config.hosts
+    self.hosts = config.chaussettes_hosts
     for h in self.hosts:
       item = gtk.CheckMenuItem(
         '{}\n\t{}'.format(h.host, h.hostname) if h.hostname else

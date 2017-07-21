@@ -33,7 +33,19 @@ class Config:
 
    """
 
-   _rx = re.compile(r'^ \s* (\w+) (?: \s*=\s* | \s+) (.*) $', re.X)
+   _rx = re.compile(r'''^
+                        \s*
+                        (?:
+                          (?P<option> \w+)
+                        )
+                        (?:
+                          \s*=\s*
+                          |
+                          \s+
+                        )
+                        (?P<arguments> .*)
+                        $
+                        ''', re.X)
 
    def __init__(self, filename=None, fileobj=None):
       """ Read the configuration from the given file or filename """
@@ -50,7 +62,8 @@ class Config:
       for line in fileobj:
          m = self._rx.search(line)
          if m is not None:
-            options.append(m.group(1,2))
+            options.append((m.group('option'),
+                            m.group('arguments')))
       host_indices = [i for i,o in enumerate(options) if o[0] == 'Host']
       host_indices.append(len(options))
       for k in range(len(host_indices)-1):

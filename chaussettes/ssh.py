@@ -46,6 +46,7 @@ class Config:
                         (?P<arguments> .*)
                         $
                         ''', re.X)
+   _bool_rx = re.compile(r'^ \s* (?: (yes) | (no) ) \s*$', flags=re.X|re.I)
 
    def __init__(self, filename=None, fileobj=None):
       """ Read the configuration from the given file or filename """
@@ -74,6 +75,9 @@ class Config:
          h = {'host':host}
          for l in range(i+1, j):
             keyword, arguments = options[l]
+            m = self._bool_rx.search(arguments)
+            if m:
+               arguments = (True, False)[m.lastindex - 1]
             h[keyword.lower()] = arguments
          self.hosts.append(Host(**h))
          seen_hosts.add(host)

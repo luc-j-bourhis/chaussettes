@@ -46,15 +46,15 @@ def test_single_more_complex():
     Hostname = my.address.com
       Compression= no
     RequestTTY =auto
-    ForwardX11 no
+    ForwardX11 yes
     Ciphers chacha20-poly1305@openssh.com
   """))
   assert config.hosts == [
     ssh.Host('somewhere',
          hostname='my.address.com',
-         compression='no',
+         compression=False,
          requesttty='auto',
-         forwardx11='no',
+         forwardx11=True,
          ciphers='chacha20-poly1305@openssh.com')
     ]
 

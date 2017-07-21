@@ -50,6 +50,10 @@ class Config:
                         ''', re.X)
    _bool_rx = re.compile(r'^ \s* (?: (yes) | (no) ) \s*$', flags=re.X|re.I)
 
+   @property
+   def chaussettes_hosts(self):
+      return [h for h in self.hosts if h.chaussettes]
+
    def __init__(self, filename=None, fileobj=None):
       """ Read the configuration from the given file or filename """
       assert (filename is not None) != (fileobj is not None),\

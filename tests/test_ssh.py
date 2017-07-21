@@ -57,6 +57,7 @@ def test_single_more_complex():
          forwardx11=True,
          ciphers='chacha20-poly1305@openssh.com')
     ]
+  assert not config.chaussettes_hosts
 
 def test_chaussettes_option():
   config = ssh.Config(fileobj=StringIO("""\
@@ -77,6 +78,7 @@ def test_chaussettes_option():
          forwardx11=False,
          ciphers='chacha20-poly1305@openssh.com')
     ]
+  assert config.chaussettes_hosts == config.hosts
 
 def test_default_value():
   config = ssh.Config(fileobj=StringIO("Host=somewhere"))

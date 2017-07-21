@@ -22,6 +22,7 @@ import re
 import collections
 import logging
 import subprocess
+from . import iterators
 
 
 module_logger = logging.getLogger('chaussettes.ssh')
@@ -71,10 +72,10 @@ class Config:
          if m is not None:
             options.append((m.group('chaussettes') or m.group('option'),
                             m.group('arguments')))
-      host_indices = [i for i,o in enumerate(options) if o[0] == 'Host']
-      host_indices.append(len(options))
-      for k in range(len(host_indices)-1):
-         i,j = host_indices[k:k+2]
+      host_indices = iterators.chain(
+         (i for i,o in enumerate(options) if o[0] == 'Host'),
+         (len(options),))
+      for i,j in iterators.pairwise(host_indices):
          host = options[i][1]
          if host in seen_hosts:
             continue

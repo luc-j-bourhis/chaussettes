@@ -117,8 +117,12 @@ class Chaussettes:
     self.setup_gnome(proxy=False)
     gtk.main_quit()
 
-if __name__ == "__main__":
+
+def run():
   import logging
   ssh.module_logger.setLevel(logging.INFO)
   ssh.module_logger.addHandler(logging.StreamHandler())
   Chaussettes().main()
+
+if __name__ == "__main__":
+  run()

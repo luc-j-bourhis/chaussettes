@@ -58,3 +58,22 @@ def test_single_more_complex():
          ciphers='chacha20-poly1305@openssh.com')
     ]
 
+def test_chaussettes_option():
+  config = ssh.Config(fileobj=StringIO("""\
+  Host=somewhere
+    #Chaussettes yes
+    Hostname = my.address.com
+      Compression= no
+    RequestTTY =auto
+    ForwardX11 no
+    Ciphers chacha20-poly1305@openssh.com
+  """))
+  assert config.hosts == [
+    ssh.Host('somewhere',
+         chaussettes=True,
+         hostname='my.address.com',
+         compression=False,
+         requesttty='auto',
+         forwardx11=False,
+         ciphers='chacha20-poly1305@openssh.com')
+    ]

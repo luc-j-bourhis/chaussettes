@@ -36,6 +36,8 @@ class Config:
    _rx = re.compile(r'''^
                         \s*
                         (?:
+                          \# (?P<chaussettes> [Cc]haussettes)
+                          |
                           (?P<option> \w+)
                         )
                         (?:
@@ -63,7 +65,7 @@ class Config:
       for line in fileobj:
          m = self._rx.search(line)
          if m is not None:
-            options.append((m.group('option'),
+            options.append((m.group('chaussettes') or m.group('option'),
                             m.group('arguments')))
       host_indices = [i for i,o in enumerate(options) if o[0] == 'Host']
       host_indices.append(len(options))

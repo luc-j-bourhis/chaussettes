@@ -77,3 +77,9 @@ def test_chaussettes_option():
          forwardx11=False,
          ciphers='chacha20-poly1305@openssh.com')
     ]
+
+def test_default_value():
+  config = ssh.Config(fileobj=StringIO("Host=somewhere"))
+  assert len(config.hosts) == 1
+  h = config.hosts[0]
+  assert h.forwardx11 is None

@@ -100,7 +100,7 @@ class Host:
       self.__dict__.update(kwds)
       self.ssh = None
 
-   def __getattr__(self):
+   def __getattr__(self, name):
       return None
 
    def __eq__(self, other):

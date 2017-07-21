@@ -37,12 +37,15 @@ class Chaussettes:
 
   APPINDICATOR_ID = 'fr.ljbo.chaussette'
 
+  CLOSED_ICON = path.join(path.dirname(__file__), 'menu-closed.svg')
+  OPENED_ICON = path.join(path.dirname(__file__), 'menu-opened.svg')
+
   def __init__(self):
     """ Setup the GUI and the business logic """
     # Basic setup
     self.indicator = appindicator.Indicator.new(
       self.APPINDICATOR_ID,
-      'n/a',
+      self.CLOSED_ICON,
       appindicator.IndicatorCategory.SYSTEM_SERVICES)
     self.indicator.set_status(appindicator.IndicatorStatus.ACTIVE)
 
@@ -101,6 +104,7 @@ class Chaussettes:
       host.disconnect()
       if not self.connections:
         self.setup_gnome(proxy=False)
+      self.indicator.set_icon(self.CLOSED_ICON)
     else:
       # item has been enabled
       self.connections += 1
@@ -109,6 +113,7 @@ class Chaussettes:
           item1.set_active(False)
       host.connect()
       self.setup_gnome(proxy=True)
+      self.indicator.set_icon(self.OPENED_ICON)
 
   def quit(self, source):
     """ Quit the application """

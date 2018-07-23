@@ -1,3 +1,5 @@
+from __future__ import absolute_import
+
 """ Main application """
 
 """
@@ -26,7 +28,7 @@ from gi.repository import Gtk as gtk, Gio as gio
 gi.require_version('AppIndicator3', '0.1')
 from gi.repository import AppIndicator3 as appindicator
 
-from chaussettes import ssh
+from . import ssh
 
 class Chaussettes:
   """ The application

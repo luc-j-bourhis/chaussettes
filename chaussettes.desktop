@@ -1,0 +1,5 @@
+[Desktop Entry]
+Type=Application
+Name=Chaussettes
+Icon=/usr/share/icons/unity-icon-theme/apps/128/web.svg
+Exec=/home/luc/Developer/Chaussettes/chaussettes.sh dev

@@ -28,7 +28,10 @@ from gi.repository import Gtk as gtk, Gio as gio
 gi.require_version('AppIndicator3', '0.1')
 from gi.repository import AppIndicator3 as appindicator
 
-from . import ssh
+try:
+  from chaussettes import ssh
+except ImportError:
+  from . import ssh
 
 class Chaussettes:
   """ The application

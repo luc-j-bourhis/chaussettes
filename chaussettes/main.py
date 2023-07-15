@@ -65,7 +65,7 @@ class Chaussettes:
     self.selectable = []
     self.hosts = config.chaussettes_hosts
     for h in self.hosts:
-      item = gtk.CheckMenuItem(
+      item = gtk.CheckMenuItem(label=
         '{}\n\t{}'.format(h.host, h.hostname) if h.hostname else
         h.host)
       item.connect('toggled', self.select, h)
@@ -74,7 +74,7 @@ class Chaussettes:
 
     # Quit
     self.menu.append(gtk.SeparatorMenuItem())
-    item_quit = gtk.MenuItem('Quit')
+    item_quit = gtk.MenuItem(label='Quit')
     item_quit.connect('activate', self.quit)
     self.menu.append(item_quit)
 
@@ -90,8 +90,8 @@ class Chaussettes:
     """ Setup or disable a SOCKS proxy in the system preferences,
     depending on the value of the flag `proxy`
     """
-    s1 = gio.Settings('org.gnome.system.proxy')
-    s2 = gio.Settings('org.gnome.system.proxy.socks')
+    s1 = gio.Settings(schema='org.gnome.system.proxy')
+    s2 = gio.Settings(schema='org.gnome.system.proxy.socks')
     if proxy:
       s1.set_string('mode', 'manual')
       s2.set_int('port', ssh.Host.PORT)
@@ -109,7 +109,7 @@ class Chaussettes:
       host.disconnect()
       if not self.connections:
         self.setup_gnome(proxy=False)
-      self.indicator.set_icon(self.CLOSED_ICON)
+      self.indicator.set_icon_full(self.CLOSED_ICON, "Connection is closed")
     else:
       # item has been enabled
       self.connections += 1
@@ -118,7 +118,7 @@ class Chaussettes:
           item1.set_active(False)
       host.connect()
       self.setup_gnome(proxy=True)
-      self.indicator.set_icon(self.OPENED_ICON)
+      self.indicator.set_icon_full(self.OPENED_ICON, "Connection is opened")
 
   def quit(self, source):
     """ Quit the application """

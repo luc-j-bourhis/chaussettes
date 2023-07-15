@@ -30,8 +30,6 @@ module_logger = logging.getLogger('chaussettes.ssh')
 
 class Config:
    """ SSH configuration, i.e. the info stored in ~/.ssh/config
-
-
    """
 
    _rx = re.compile(r'''^

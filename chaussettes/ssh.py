@@ -84,6 +84,7 @@ class Config:
             if m:
                arguments = (True, False)[m.lastindex - 1]
             h[keyword.lower()] = arguments
+         module_logger.info(f"Parsed ssh config item:\n{h}")
          self.hosts.append(Host(**h))
          seen_hosts.add(host)
 
@@ -119,12 +120,12 @@ class Host:
       """ Establish a dynamic forward with self.host """
       module_logger.info("Connect {}".format(self.host))
       self.ssh = subprocess.Popen(
-         ('ssh', '-N', '-D', str(self.PORT), self.hostname or self.host))
+         ('ssh', '-N', '-D', str(self.PORT), self.host))
 
    def disconnect(self):
       """ Bring down the dynamic forward if it is established;
       otherwise do nothing """
       if self.ssh is not None:
-         module_logger.info("Disconnect {}".format(self.hostname or self.host))
+         module_logger.info("Disconnect {}".format(self.host))
          self.ssh.terminate()
          self.ssh.wait()
